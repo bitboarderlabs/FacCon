@@ -1,0 +1,6 @@
+../Core/Src/io_core.c:22:6:IO_Core_Init	16	static
+../Core/Src/io_core.c:31:6:IO_SetOutput	16	static
+../Core/Src/io_core.c:47:6:IO_GetOutput	16	static
+../Core/Src/io_core.c:53:6:IO_GetInput	24	static
+../Core/Src/io_core.c:63:10:IO_GetAnalogIn	32	static
+../Core/Src/io_core.c:100:6:IO_AllOutputsOff	16	static

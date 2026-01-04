@@ -1,0 +1,5 @@
+../Core/Src/sysstatus.c:51:6:SysStatus_Init_WithLCD	24	static
+../Core/Src/sysstatus.c:104:6:SysStatus_Init_NoLCD	88	static
+../Core/Src/sysstatus.c:113:6:LEDs_SetSystemState	16	static
+../Core/Src/sysstatus.c:124:6:LED_Comms_Trigger	8	static
+../Core/Src/sysstatus.c:133:6:LEDs_Process	8	static

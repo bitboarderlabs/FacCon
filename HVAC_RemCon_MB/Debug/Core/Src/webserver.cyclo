@@ -1,0 +1,5 @@
+../Core/Src/webserver.c:166:14:toggle_cgi_handler	4
+../Core/Src/webserver.c:185:6:cgi_init	1
+../Core/Src/webserver.c:190:5:fs_open_custom	6
+../Core/Src/webserver.c:219:6:fs_close_custom	1
+../Core/Src/webserver.c:224:6:WebServer_Init	1
