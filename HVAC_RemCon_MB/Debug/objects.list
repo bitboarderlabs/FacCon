@@ -9,6 +9,8 @@
 "./Core/Src/system_stm32f4xx.o"
 "./Core/Src/webserver.o"
 "./Core/Startup/startup_stm32f427vitx.o"
+"./Displays/ST7735_Canvas/ST7735Canvas.o"
+"./Displays/ST7735_Canvas/fonts.o"
 "./Drivers/BSP/Components/lan8742/lan8742.o"
 "./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o"
 "./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.o"

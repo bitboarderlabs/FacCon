@@ -24,6 +24,7 @@ C_DEPS :=
 SUBDIRS := \
 Core/Src \
 Core/Startup \
+Displays/ST7735_Canvas \
 Drivers/BSP/Components/lan8742 \
 Drivers/STM32F4xx_HAL_Driver/Src \
 LWIP/App \

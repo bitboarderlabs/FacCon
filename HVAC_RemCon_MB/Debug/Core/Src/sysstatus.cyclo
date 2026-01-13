@@ -1,5 +1,4 @@
-../Core/Src/sysstatus.c:51:6:SysStatus_Init_WithLCD	2
-../Core/Src/sysstatus.c:104:6:SysStatus_Init_NoLCD	1
-../Core/Src/sysstatus.c:113:6:LEDs_SetSystemState	3
-../Core/Src/sysstatus.c:124:6:LED_Comms_Trigger	2
-../Core/Src/sysstatus.c:133:6:LEDs_Process	5
+../Core/Src/sysstatus.c:46:6:SysStatus_Init	1
+../Core/Src/sysstatus.c:91:6:LEDs_SetSystemState	3
+../Core/Src/sysstatus.c:103:6:LED_Comms_Trigger	2
+../Core/Src/sysstatus.c:113:6:LEDs_Process	6

@@ -32,7 +32,12 @@ Core/Src/sysstatus.o: ../Core/Src/sysstatus.c ../Core/Inc/sysstatus.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Inc/main.h
+ ../Core/Inc/main.h \
+ C:/Users/alex/source/repos/FacCon/HVAC_RemCon_MB/Displays/ST7735_Canvas/ST7735Canvas.h \
+ C:/Users/alex/source/repos/FacCon/HVAC_RemCon_MB/Displays/ST7735_Canvas/gfxfont.h \
+ C:/Users/alex/source/repos/FacCon/HVAC_RemCon_MB/Displays/ST7735_Canvas/fonts.h \
+ C:/Users/alex/source/repos/FacCon/HVAC_RemCon_MB/Displays/Fonts/Dialog10pNarRssi.h \
+ C:/Users/alex/source/repos/FacCon/HVAC_RemCon_MB/Displays/Fonts/Dialog24p.h
 ../Core/Inc/sysstatus.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -69,3 +74,8 @@ Core/Src/sysstatus.o: ../Core/Src/sysstatus.c ../Core/Inc/sysstatus.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Core/Inc/main.h:
+C:/Users/alex/source/repos/FacCon/HVAC_RemCon_MB/Displays/ST7735_Canvas/ST7735Canvas.h:
+C:/Users/alex/source/repos/FacCon/HVAC_RemCon_MB/Displays/ST7735_Canvas/gfxfont.h:
+C:/Users/alex/source/repos/FacCon/HVAC_RemCon_MB/Displays/ST7735_Canvas/fonts.h:
+C:/Users/alex/source/repos/FacCon/HVAC_RemCon_MB/Displays/Fonts/Dialog10pNarRssi.h:
+C:/Users/alex/source/repos/FacCon/HVAC_RemCon_MB/Displays/Fonts/Dialog24p.h:

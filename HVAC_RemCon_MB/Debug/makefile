@@ -21,6 +21,7 @@ RM := rm -rf
 -include LWIP/App/subdir.mk
 -include Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk
 -include Drivers/BSP/Components/lan8742/subdir.mk
+-include Displays/ST7735_Canvas/subdir.mk
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
 -include objects.mk
@@ -71,8 +72,8 @@ all: main-build
 main-build: HVAC_RemCon_MB.elf secondary-outputs
 
 # Tool invocations
-HVAC_RemCon_MB.elf HVAC_RemCon_MB.map: $(OBJS) $(USER_OBJS) C:\Users\Alex.ST-EL\source\repos\FacCon\HVAC_RemCon_MB\STM32F427VITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "HVAC_RemCon_MB.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Alex.ST-EL\source\repos\FacCon\HVAC_RemCon_MB\STM32F427VITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HVAC_RemCon_MB.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+HVAC_RemCon_MB.elf HVAC_RemCon_MB.map: $(OBJS) $(USER_OBJS) C:\Users\alex\source\repos\FacCon\HVAC_RemCon_MB\STM32F427VITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "HVAC_RemCon_MB.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\alex\source\repos\FacCon\HVAC_RemCon_MB\STM32F427VITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HVAC_RemCon_MB.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

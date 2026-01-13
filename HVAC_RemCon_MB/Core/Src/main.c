@@ -17,7 +17,6 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
-#include <sysstatus.h>
 #include "main.h"
 #include "lwip.h"
 
@@ -26,7 +25,8 @@
 #include "httpd.h"
 #include "modbus_tcp.h"
 #include "io_core.h"
-#include "webserver.h"
+#include "sysstatus.h"
+//#include "webserver.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -68,10 +68,10 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_SPI3_Init(void);
-static void MX_TIM1_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_UART7_Init(void);
+static void MX_TIM1_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -112,23 +112,25 @@ int main(void)
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_SPI3_Init();
-  MX_TIM1_Init();
   MX_USART1_UART_Init();
   MX_LWIP_Init();
   MX_ADC1_Init();
   MX_UART7_Init();
+  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
+
+  	  SysStatus_Init(&htim1, &hspi3);
   	  //LEDs_Init();
-  	  SysStatus_Init_WithLCD(LED_STATUS_T1C1_GPIO_Port, LED_STATUS_T1C1_Pin, GPIO_PIN_SET,
-  			  LED_COMM_T1C2_GPIO_Port, LED_COMM_T1C2_Pin, GPIO_PIN_SET,
-			  LED_ALARM_T1C3_GPIO_Port, LED_ALARM_T1C3_Pin, GPIO_PIN_SET,
-			  LCD_BL_T1C4_GPIO_Port, LCD_BL_T1C4_Pin, GPIO_PIN_SET, &hspi3,
-			  LCD_NCS_GPIO_Port, LCD_NCS_Pin, LCD_AO_GPIO_Port, LCD_AO_Pin,
-			  LCD_NRST_GPIO_Port, LCD_NRST_Pin);
+//  	  SysStatus_Init_WithLCD(LED_STATUS_T1C1_GPIO_Port, LED_STATUS_T1C1_Pin, GPIO_PIN_SET,
+//  			  LED_COMM_T1C2_GPIO_Port, LED_COMM_T1C2_Pin, GPIO_PIN_SET,
+//			  LED_ALARM_T1C3_GPIO_Port, LED_ALARM_T1C3_Pin, GPIO_PIN_SET,
+//			  LCD_BL_T1C4_GPIO_Port, LCD_BL_T1C4_Pin, GPIO_PIN_SET, &hspi3,
+//			  LCD_NCS_GPIO_Port, LCD_NCS_Pin, LCD_AO_GPIO_Port, LCD_AO_Pin,
+//			  LCD_NRST_GPIO_Port, LCD_NRST_Pin);
   	  LEDs_SetSystemState(SYSTEM_STATE_BOOT);
   	  IO_Core_Init(&hadc1);
   	  ModbusTCP_Init();
-  	  WebServer_Init();
+//  	  WebServer_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -352,9 +354,9 @@ static void MX_TIM1_Init(void)
 
   /* USER CODE END TIM1_Init 1 */
   htim1.Instance = TIM1;
-  htim1.Init.Prescaler = 0;
+  htim1.Init.Prescaler = 100;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 65535;
+  htim1.Init.Period = 100;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -387,6 +389,7 @@ static void MX_TIM1_Init(void)
   {
     Error_Handler();
   }
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_LOW;
   if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_4) != HAL_OK)
   {
     Error_Handler();
