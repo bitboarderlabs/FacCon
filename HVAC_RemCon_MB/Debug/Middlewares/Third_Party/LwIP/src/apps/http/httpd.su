@@ -16,7 +16,7 @@
 ../Middlewares/Third_Party/LwIP/src/apps/http/httpd.c:1673:1:http_get_404_file	24	static
 ../Middlewares/Third_Party/LwIP/src/apps/http/httpd.c:1952:1:http_parse_request	64	static
 ../Middlewares/Third_Party/LwIP/src/apps/http/httpd.c:2176:1:http_find_file	88	static
-../Middlewares/Third_Party/LwIP/src/apps/http/httpd.c:2305:1:http_init_file	48	static
+../Middlewares/Third_Party/LwIP/src/apps/http/httpd.c:2305:1:http_init_file	32	static
 ../Middlewares/Third_Party/LwIP/src/apps/http/httpd.c:2424:1:http_err	24	static
 ../Middlewares/Third_Party/LwIP/src/apps/http/httpd.c:2441:1:http_sent	32	static
 ../Middlewares/Third_Party/LwIP/src/apps/http/httpd.c:2468:1:http_poll	24	static

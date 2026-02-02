@@ -444,44 +444,6 @@ void ST7735_WriteDataDMA(LCD_HandleTypeDef* dev, uint8_t* buff, size_t buff_size
 
 
 
-
-
-
-
-
-
-
-
-
-
-/*
-void DisplayInit(const uint8_t *addr)
-{
-    uint8_t numCommands, numArgs;
-    uint16_t ms;
-
-    numCommands = *addr++;
-    while(numCommands--) {
-        uint8_t cmd = *addr++;
-        ST7735_WriteCommand(cmd);
-
-        numArgs = *addr++;
-        // If high bit set, delay follows args
-        ms = numArgs & ST_CMD_DELAY;
-        numArgs &= ~ST_CMD_DELAY;
-        if(numArgs) {
-            ST7735_WriteData((uint8_t*)addr, numArgs);
-            addr += numArgs;
-        }
-
-        if(ms) {
-            ms = *addr++;
-            if(ms == 255) ms = 500;
-            HAL_Delay(ms);
-        }
-    }
-}
-*/
 void ST7735_SetAddressWindow(LCD_HandleTypeDef* dev, uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1)
 {
     // column address set

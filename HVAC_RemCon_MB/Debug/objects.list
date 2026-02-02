@@ -1,6 +1,7 @@
 "./Core/Src/io_core.o"
 "./Core/Src/main.o"
 "./Core/Src/modbus_tcp.o"
+"./Core/Src/nodeid.o"
 "./Core/Src/stm32f4xx_hal_msp.o"
 "./Core/Src/stm32f4xx_it.o"
 "./Core/Src/syscalls.o"

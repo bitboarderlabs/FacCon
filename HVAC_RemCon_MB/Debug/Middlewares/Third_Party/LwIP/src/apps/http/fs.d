@@ -45,7 +45,8 @@ Middlewares/Third_Party/LwIP/src/apps/http/fs.o: \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/fs.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/httpd_opts.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/err.h \
- ../LWIP/Target/fsdata_custom.c
+ C:/Users/alex/source/repos/FacCon/HVAC_RemCon_MB/Core/Src/fsdata_custom.c \
+ ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/fs.h
 ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/httpd_opts.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h:
 ../LWIP/Target/lwipopts.h:
@@ -92,4 +93,5 @@ Middlewares/Third_Party/LwIP/src/apps/http/fs.o: \
 ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/fs.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/httpd_opts.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/err.h:
-../LWIP/Target/fsdata_custom.c:
+C:/Users/alex/source/repos/FacCon/HVAC_RemCon_MB/Core/Src/fsdata_custom.c:
+../Middlewares/Third_Party/LwIP/src/include/lwip/apps/fs.h:

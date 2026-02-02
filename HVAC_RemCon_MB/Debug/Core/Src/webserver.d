@@ -44,7 +44,7 @@ Core/Src/webserver.o: ../Core/Src/webserver.c ../Core/Inc/webserver.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/err.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/pbuf.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/fs.h \
- ../Core/Inc/io_core.h ../Core/Inc/main.h ../Core/Inc/sysstatus.h
+ ../Core/Inc/io_core.h ../Core/Inc/main.h
 ../Core/Inc/webserver.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/httpd.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/httpd_opts.h:
@@ -94,4 +94,3 @@ Core/Src/webserver.o: ../Core/Src/webserver.c ../Core/Inc/webserver.h \
 ../Middlewares/Third_Party/LwIP/src/include/lwip/apps/fs.h:
 ../Core/Inc/io_core.h:
 ../Core/Inc/main.h:
-../Core/Inc/sysstatus.h:

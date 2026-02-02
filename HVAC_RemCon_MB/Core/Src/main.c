@@ -22,11 +22,14 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "nodeid.h"
 #include "httpd.h"
 #include "modbus_tcp.h"
 #include "io_core.h"
 #include "sysstatus.h"
 #include "webserver.h"
+#include "lwip/netif.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -49,6 +52,7 @@ ADC_HandleTypeDef hadc1;
 DMA_HandleTypeDef hdma_adc1;
 
 SPI_HandleTypeDef hspi3;
+DMA_HandleTypeDef hdma_spi3_tx;
 
 TIM_HandleTypeDef htim1;
 
@@ -61,6 +65,32 @@ DMA_HandleTypeDef hdma_usart1_tx;
 
 /* USER CODE BEGIN PV */
 extern struct netif gnetif;  // Declared in MX_LWIP_Init()
+
+uint8_t nodeid = 15;  //0 is reserved for host controller.
+uint8_t last_nodeid = 16;	//setting it different from cur_nodeip so the display will update on first loop.
+
+uint32_t cur_ipaddr = 0;
+uint32_t last_ipaddr = 1;	//setting it different from cur_ipaddr so the display will update on first loop
+
+uint32_t digIoLastChecked = 0;  //timer for tracking when it's time to check the dig io for display update
+uint32_t digIoCheckInterval = 100;  //How many milliseconds in between io checks for display
+uint8_t curInVals = 0;
+uint8_t lastInVals = 255;
+uint8_t curOutVals = 0;
+uint8_t lastOutVals = 255;
+
+float curTempVals[5] = {0};
+float lastTempVals[5] = {-100};
+uint32_t lastCheckedTemp = 0;
+uint32_t tempCheckInterval = 1000;
+eTempScale displayTempScale = celcius;// fahrenheit;
+
+//uint32_t anaInLastChecked = 0;
+//uint32_t anaInCheckInterval = 100;
+//uint16_t curAnaVals[5] = {0};
+//uint16_t lastAnaVals[5] = {0xFFFF};
+
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -74,10 +104,66 @@ static void MX_UART7_Init(void);
 static void MX_TIM1_Init(void);
 /* USER CODE BEGIN PFP */
 
+void checkNodeId(void);
+void checkIpAddr(void);
+void updateDislayIO(void);
+void updateDisplayTemp(void);
+
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+void checkNodeId(void){
+	nodeid = NodeId_Get();
+	if(last_nodeid != nodeid){
+		last_nodeid = nodeid;
+		SysStatus_UpdateNodeId(nodeid);
+	}
+}
+
+void checkIpAddr(void){
+	cur_ipaddr = gnetif.ip_addr.addr;
+	if(last_ipaddr != cur_ipaddr){
+		last_ipaddr = cur_ipaddr;
+		SysStatus_UpdateIP(cur_ipaddr);
+	}
+}
+
+void updateDislayIO(void){
+	if(HAL_GetTick() - digIoLastChecked >= digIoCheckInterval){
+		curInVals = IO_GetInputBank();
+		if(lastInVals != curInVals){
+			lastInVals = curInVals;
+			SysStatus_UpdateInputsDisplay(curInVals);
+		}
+
+		curOutVals = IO_GetOutputLatch();
+		if(lastOutVals != curOutVals){
+			lastOutVals = curOutVals;
+			SysStatus_UpdateOutputsDisplay(curOutVals);
+		}
+		digIoLastChecked = HAL_GetTick();
+	}
+
+
+}
+
+void updateDisplayTemp(void){
+	if(HAL_GetTick() - lastCheckedTemp >= tempCheckInterval){
+		float tempDiff = 0.0f;
+		for(uint8_t n=0; n<6; n++){
+			curTempVals[n] = IO_GetAnalogIn(n, displayTempScale);
+			tempDiff = (curTempVals[n] > lastTempVals[n] ? curTempVals[n] - lastTempVals[n] : lastTempVals[n] - curTempVals[n]);
+			if(tempDiff >= 0.3){
+				lastTempVals[n] = curTempVals[n];
+				SysStatus_UpdateTempDisplay(n, curTempVals[n]);
+			}
+		}
+		lastCheckedTemp = HAL_GetTick();
+	}
+}
 
 /* USER CODE END 0 */
 
@@ -120,10 +206,15 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   	  SysStatus_Init(&htim1, &hspi3);
-  	  LEDs_SetSystemState(SYSTEM_STATE_BOOT);
   	  IO_Core_Init(&hadc1);
-  	  ModbusTCP_Init();
+  	  HAL_Delay(1000);	//Just to show splash screen
+  	  SysStatus_SetSystemState(SYSTEM_STATE_BOOT);
+
+
+  	  checkNodeId();	//This will read the id and update the lcd display.
+  	  ModbusTCP_Init(nodeid);
   	  WebServer_Init();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -132,14 +223,25 @@ int main(void)
   {
 	  MX_LWIP_Process();
 
-
 	  // Update system state based on Ethernet link + IP
 	  if (netif_is_link_up(&gnetif) && dhcp_supplied_address(&gnetif)) {
-		  LEDs_SetSystemState(SYSTEM_STATE_STABLE);
+		  SysStatus_SetSystemState(SYSTEM_STATE_STABLE);
 	  } else {
-		  LEDs_SetSystemState(SYSTEM_STATE_BOOT);
+		  SysStatus_SetSystemState(SYSTEM_STATE_BOOT);
 	  }
-	  LEDs_Process();
+
+	  checkNodeId();
+	  checkIpAddr();
+
+
+	  SysStatus_Process();
+
+
+	  updateDislayIO();
+	  updateDisplayTemp();
+
+
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -221,7 +323,7 @@ static void MX_ADC1_Init(void)
   /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
   */
   hadc1.Instance = ADC1;
-  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV8;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
   hadc1.Init.ScanConvMode = ENABLE;
   hadc1.Init.ContinuousConvMode = ENABLE;
@@ -230,7 +332,7 @@ static void MX_ADC1_Init(void)
   hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc1.Init.NbrOfConversion = 5;
-  hadc1.Init.DMAContinuousRequests = DISABLE;
+  hadc1.Init.DMAContinuousRequests = ENABLE;
   hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
   if (HAL_ADC_Init(&hadc1) != HAL_OK)
   {
@@ -239,9 +341,9 @@ static void MX_ADC1_Init(void)
 
   /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
   */
-  sConfig.Channel = ADC_CHANNEL_3;
+  sConfig.Channel = ADC_CHANNEL_TEMPSENSOR;
   sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES;
+  sConfig.SamplingTime = ADC_SAMPLETIME_480CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -267,7 +369,7 @@ static void MX_ADC1_Init(void)
 
   /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
   */
-  sConfig.Channel = ADC_CHANNEL_10;
+  sConfig.Channel = ADC_CHANNEL_3;
   sConfig.Rank = 4;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
@@ -276,7 +378,7 @@ static void MX_ADC1_Init(void)
 
   /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
   */
-  sConfig.Channel = ADC_CHANNEL_TEMPSENSOR;
+  sConfig.Channel = ADC_CHANNEL_10;
   sConfig.Rank = 5;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
@@ -487,6 +589,9 @@ static void MX_DMA_Init(void)
   /* DMA1_Stream3_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA1_Stream3_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Stream3_IRQn);
+  /* DMA1_Stream5_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Stream5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Stream5_IRQn);
   /* DMA2_Stream0_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
@@ -573,8 +678,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : DIN_2_Pin DIN_1_Pin */
-  GPIO_InitStruct.Pin = DIN_2_Pin|DIN_1_Pin;
+  /*Configure GPIO pins : DIN_1_Pin DIN_2_Pin */
+  GPIO_InitStruct.Pin = DIN_1_Pin|DIN_2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);

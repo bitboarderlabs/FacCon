@@ -107,10 +107,10 @@ void Error_Handler(void);
 #define LCD_NCS_GPIO_Port GPIOD
 #define OUT_6_Pin GPIO_PIN_5
 #define OUT_6_GPIO_Port GPIOB
-#define DIN_2_Pin GPIO_PIN_0
-#define DIN_2_GPIO_Port GPIOE
-#define DIN_1_Pin GPIO_PIN_1
+#define DIN_1_Pin GPIO_PIN_0
 #define DIN_1_GPIO_Port GPIOE
+#define DIN_2_Pin GPIO_PIN_1
+#define DIN_2_GPIO_Port GPIOE
 
 /* USER CODE BEGIN Private defines */
 

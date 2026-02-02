@@ -31,15 +31,6 @@
 /* Within 'USER CODE' section, code will be kept by default at each generation */
 /* USER CODE BEGIN 0 */
 
-#define LWIP_HTTPD_CUSTOM_FILES     1
-#define LWIP_HTTPD_DYNAMIC_HEADERS  1
-//#define LWIP_HTTPD_SUPPORT_POST     1  // For your toggle CGI
-#define LWIP_HTTPD_FILE_EXTENSION 1
-
-/* Forward declarations for custom FS functions */
-struct fs_file;
-int fs_open_custom(struct fs_file *file, const char *name);
-void fs_close_custom(struct fs_file *file);
 
 /* USER CODE END 0 */
 
@@ -69,6 +60,8 @@ void fs_close_custom(struct fs_file *file);
 #define MEM_SIZE 16000
 /*----- Value in opt.h for MEMP_NUM_SYS_TIMEOUT: (LWIP_TCP + IP_REASSEMBLY + LWIP_ARP + (2*LWIP_DHCP) + LWIP_AUTOIP + LWIP_IGMP + LWIP_DNS + (PPP_SUPPORT*6*MEMP_NUM_PPP_PCB) + (LWIP_IPV6 ? (1 + LWIP_IPV6_REASS + LWIP_IPV6_MLD) : 0)) -*/
 #define MEMP_NUM_SYS_TIMEOUT 5
+/*----- Default Value for MEMP_NUM_NETCONN: 4 ---*/
+#define MEMP_NUM_NETCONN 10
 /*----- Value in opt.h for LWIP_ETHERNET: LWIP_ARP || PPPOE_SUPPORT -*/
 #define LWIP_ETHERNET 1
 /*----- Default Value for ETHARP_TABLE_MATCH_NETIF: 1 ---*/
@@ -95,8 +88,8 @@ void fs_close_custom(struct fs_file *file);
 #define LWIP_HTTPD 1
 /*----- Default Value for LWIP_HTTPD_CGI: 0 ---*/
 #define LWIP_HTTPD_CGI 1
-/*----- Default Value for LWIP_HTTPD_CGI_SSI: 0 ---*/
-#define LWIP_HTTPD_CGI_SSI 1
+/*----- Default Value for LWIP_HTTPD_SSI_BY_FILE_EXTENSION: 1 ---*/
+#define LWIP_HTTPD_SSI_BY_FILE_EXTENSION 0
 /*----- Default Value for LWIP_HTTPD_DYNAMIC_HEADERS: 0 ---*/
 #define LWIP_HTTPD_DYNAMIC_HEADERS 1
 /*----- Default Value for LWIP_HTTPD_CUSTOM_FILES: 0 ---*/

@@ -1,3 +1,4 @@
+//-- modbus_tcp.c --//
 #include "modbus_tcp.h"
 #include "lwip/opt.h"
 #include "lwip/tcp.h"
@@ -61,7 +62,7 @@ static err_t modbus_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t 
     memcpy(resp, data, 6);
     resp[6] = unit_id;
 
-    LED_Comms_Trigger();
+    SysStatus_Comms_Trigger();
 
     switch (fc) {
         case 0x01:  // Read Coils
@@ -125,7 +126,7 @@ static err_t modbus_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t 
 			resp_len = 9 + byte_count;
 
 			for (uint16_t i = 0; i < qty; i++) {
-				uint16_t val = IO_GetAnalogIn(addr + i);
+				uint16_t val = IO_GetAnalogIn(addr + i, celcius);
 				resp[9 + i*2] = val >> 8;
 				resp[9 + i*2 + 1] = val & 0xFF;
 			}
@@ -203,7 +204,7 @@ static err_t modbus_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t 
     return ERR_OK;
 }
 
-void ModbusTCP_Init(void)
+void ModbusTCP_Init(uint8_t NodeId)
 {
     modbus_pcb = tcp_new();
     if (modbus_pcb != NULL) {

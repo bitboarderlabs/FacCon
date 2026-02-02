@@ -174,6 +174,7 @@ void ST7735_Reset(LCD_HandleTypeDef* dev);
 void ST7735_WriteCommand(LCD_HandleTypeDef* dev, uint8_t cmd);
 void ST7735_WriteData(LCD_HandleTypeDef* dev, uint8_t* buff, size_t buff_size);
 void ST7735_WriteDataDMA(LCD_HandleTypeDef* dev, uint8_t* buff, size_t buff_size);
+void ST7735_SetAddressWindow(LCD_HandleTypeDef* dev, uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1);
 void ST7735_SetRotation(LCD_HandleTypeDef* dev, uint8_t m);
 
 void ST7735_DrawPixel(LCD_HandleTypeDef* dev, uint16_t x, uint16_t y, uint16_t color);
