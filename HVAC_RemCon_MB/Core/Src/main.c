@@ -28,6 +28,7 @@
 #include "io_core.h"
 #include "sysstatus.h"
 #include "webserver.h"
+#include "mqtt_client.h"
 #include "lwip/netif.h"
 
 /* USER CODE END Includes */
@@ -214,6 +215,7 @@ int main(void)
   	  checkNodeId();	//This will read the id and update the lcd display.
   	  ModbusTCP_Init(nodeid);
   	  WebServer_Init();
+  	  MQTT_Client_Init();
 
   /* USER CODE END 2 */
 
@@ -239,6 +241,8 @@ int main(void)
 
 	  updateDislayIO();
 	  updateDisplayTemp();
+
+	  MQTT_Client_Process();
 
 
 

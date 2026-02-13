@@ -120,7 +120,9 @@
 #define CHECKSUM_CHECK_ICMP6 0
 /*-----------------------------------------------------------------------------*/
 /* USER CODE BEGIN 1 */
-
+#define LWIP_DNS                    1
+#undef MEMP_NUM_SYS_TIMEOUT
+#define MEMP_NUM_SYS_TIMEOUT        10
 /* USER CODE END 1 */
 
 #ifdef __cplusplus
